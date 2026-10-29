@@ -15,8 +15,7 @@ window.addEventListener("scroll", () => {
   // Find current section
   let currentSection = "home";
   document.querySelectorAll("section").forEach((section) => {
-    if (window.scrollY >= section.offsetTop - 100) 
-    {
+    if (window.scrollY >= section.offsetTop - 100) {
       currentSection = section.id;
     }
   });
@@ -29,11 +28,14 @@ window.addEventListener("scroll", () => {
     link.classList.toggle("bg-yellow-400", link.getAttribute("href") === "#" + currentSection);
   });
 
-  // Show the "Top" button only after scrolling down 300px
-  document.getElementById("topButton").classList.toggle("hidden", window.scrollY < 300);
+
+  document.getElementById("topButton")
+    .classList.toggle("hidden", window.scrollY < 300);
+
 });
 
-/* ========== 2. SLIDING BANNER ========== */
+
+/* SLIDING BANNER  */
 
 const banners = [
   { image: "https://picsum.photos/id/26/1200/400", text: "Big Sale: Up to 50% Off" },
@@ -56,67 +58,99 @@ function moveBanner(step) {
 moveBanner(0);
 setInterval(() => moveBanner(1), 3000); // auto slide every 3 seconds
 
-/* ========== 3. PRODUCTS ========== */
+
+
+// products
 
 let products = [];
 
-// Get products from the API
-fetch("https://fakestoreapi.com/products")
-  .then((response) => response.json())
-  .then((data) => {
+fetch('https://fakestoreapi.com/products')
+  .then(response => response.json())
+  .then(data => {
     products = data;
     showProducts(products);
+
+    //console.log(products)
   })
   .catch(() => {
     document.getElementById("productList").textContent = "Could not load products.";
   });
 
-// Make one card for each product
+
+
+// cards
 function showProducts(productList) {
+
   let cards = "";
+
   productList.forEach((product) => {
-    cards += `
+    cards = cards + `
       <div class="bg-white border border-gray-200 rounded-lg p-4 flex flex-col">
+      
         <img src="${product.image}" alt="${product.title}" class="h-40 object-contain mb-3">
+        
         <h3 class="font-semibold text-sm line-clamp-2 flex-1">${product.title}</h3>
+        
         <p class="text-sm text-gray-600 my-1">Rating: ${product.rating.rate} / 5</p>
+
         <p class="font-bold text-lg">${product.price.toFixed(2)} BDT</p>
-        <button onclick="addToCart(${product.id})"
-          class="mt-2 bg-yellow-400 hover:bg-yellow-500 font-semibold py-2 rounded">Add to Cart</button>
+        
+        <button onclick="addToCart(${product.id})"class="mt-2 bg-yellow-400 hover:bg-yellow-500 font-semibold py-2 rounded">
+          Add to Cart
+        </button>
+
       </div>`;
   });
+
   document.getElementById("productList").innerHTML = cards;
+
 }
 
-/* ========== 7. EXTRA FEATURE: SORTING ========== */
+
+
+// search sorting
 
 function sortProducts() {
+
   const sortType = document.getElementById("sortSelect").value;
-  const sortedProducts = products.slice(); // copy, so the original order stays the same
-  if (sortType === "low") sortedProducts.sort((a, b) => a.price - b.price);
-  if (sortType === "high") sortedProducts.sort((a, b) => b.price - a.price);
+
+  const sortedProducts = products.slice();
+  //console.log(sortedProducts)
+
+  if (sortType === "low") {
+    sortedProducts.sort((a, b) => a.price - b.price);
+  }
+  if (sortType === "high") {
+    sortedProducts.sort((a, b) => b.price - a.price);
+  }
   showProducts(sortedProducts);
 }
 
-/* ========== 4. CART + 6. BALANCE ========== */
+
+
+//cart + balance
 
 let cart = [];
 let couponApplied = false;
-// Use the saved balance, or 1000 the first time
-let balance = Number(localStorage.getItem("balance")) || 1000;
+let balance = +localStorage.getItem("balance") || 1000;
 
-// Calculate all cart amounts
+// calc
 function getCartTotals() {
   let subtotal = 0, delivery = 0, shipping = 0, discount = 0;
+
   cart.forEach((item) => {
     subtotal = subtotal + item.price * item.quantity;
   });
+
   if (cart.length > 0) {
     delivery = 50;
     shipping = 30;
   }
-  if (couponApplied) discount = subtotal * 0.1;
+  if (couponApplied) {
+    discount = subtotal * 0.1;
+  } 
   const total = subtotal + delivery + shipping - discount;
+  
   return {
     subtotal: subtotal,
     delivery: delivery,
@@ -126,13 +160,26 @@ function getCartTotals() {
   };
 }
 
-// Show a message in green (good) or red (warning)
+function applyCoupon() {
+  const code = document.getElementById("couponInput").value.trim().toUpperCase();
+  if (code === "SMART10") {
+    couponApplied = true;
+    showMessage("cartMessage", "Coupon applied: 10% off!", true);
+    updateCart();
+  } else {
+    showMessage("cartMessage", "Invalid coupon code.", false);
+  }
+}
+
+// show msg
 function showMessage(elementId, text, isGood) {
   const messageBox = document.getElementById(elementId);
   messageBox.textContent = text;
   if (isGood) messageBox.className = "mt-2 text-sm font-semibold text-green-700";
   else messageBox.className = "mt-2 text-sm font-semibold text-red-600";
 }
+
+
 
 function addToCart(productId) {
   const product = products.find((item) => item.id === productId);
@@ -183,16 +230,7 @@ function updateCart() {
   document.getElementById("total").textContent = totals.total.toFixed(2);
 }
 
-function applyCoupon() {
-  const code = document.getElementById("couponInput").value.trim().toUpperCase();
-  if (code === "SMART10") {
-    couponApplied = true;
-    showMessage("cartMessage", "Coupon applied: 10% off!", true);
-    updateCart();
-  } else {
-    showMessage("cartMessage", "Invalid coupon code.", false);
-  }
-}
+
 
 // Show the balance and save it in localStorage
 function showBalance() {
