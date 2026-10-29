@@ -13,9 +13,12 @@
 
 </head>
 
+
 <body class="bg-gray-50 text-gray-900 font-['Inter']">
 
-  <!-- NAVBAR  -->
+
+
+  <!-- NAVBAR -->
   <header class="sticky top-0 z-50 bg-white border-b border-gray-200">
 
     <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
@@ -38,7 +41,9 @@
     </nav>
   </header>
 
-  <!-- ========== 2. SLIDING BANNER ========== -->
+
+
+  <!-- SLIDING BANNER -->
   <section id="home" class="max-w-6xl mx-auto px-4 pt-6 scroll-mt-20">
     <div class="relative">
       <img id="bannerImage" src="" alt="Promotional banner" class="w-full h-56 md:h-96 object-cover rounded-lg">
@@ -52,7 +57,9 @@
     </div>
   </section>
 
-  <!-- ========== 3. PRODUCTS + 4. CART ========== -->
+
+
+  <!-- PRODUCTS + CART -->
   <section id="products" class="max-w-6xl mx-auto px-4 py-12 scroll-mt-20">
 
     <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
@@ -68,7 +75,7 @@
 
 
     <div class="grid lg:grid-cols-4 gap-6">
-      <!-- Product cards are added here by JavaScript -->
+      <!-- Product cards -->
       <div id="productList" class="lg:col-span-3 grid sm:grid-cols-2 md:grid-cols-3 gap-4">
         <p>Loading products...</p>
       </div>
@@ -78,7 +85,7 @@
         class="bg-white border border-gray-200 rounded-lg p-4 self-start lg:sticky lg:top-20 scroll-mt-20">
         <h3 class="text-xl font-bold mb-3">Your Cart</h3>
 
-        <!-- 6. User balance -->
+        <!-- user balance -->
         <div class="bg-gray-100 rounded p-3 mb-3 flex justify-between items-center gap-2">
           <p>Balance: <b><span id="balance">0</span> BDT</b></p>
           <button onclick="addMoney()"
@@ -86,55 +93,77 @@
             Money</button>
         </div>
 
-        <div id="cartItems"></div>
+
+        <div id="cartItems"></div> <!-- card items-->
+
 
         <div class="text-sm space-y-1 mt-3">
           <p class="flex justify-between">
             <span>Subtotal</span><span><span id="subtotal">0.00</span> BDT</span>
           </p>
+
           <p class="flex justify-between">
             <span>Delivery Charge</span><span><span id="delivery">0.00</span> BDT</span>
           </p>
+
           <p class="flex justify-between">
             <span>Shipping Cost</span><span><span id="shipping">0.00</span> BDT</span>
           </p>
+
           <p class="flex justify-between">
             <span>Discount</span><span>- <span id="discount">0.00</span> BDT</span>
           </p>
+
           <p class="flex justify-between font-bold text-base border-t border-gray-200 pt-2">
             <span>Total</span><span><span id="total">0.00</span> BDT</span>
           </p>
+
         </div>
+
 
         <div class="flex gap-2 mt-3">
           <input id="couponInput" type="text" placeholder="Coupon code"
             class="border border-gray-300 rounded px-2 py-1 w-full">
-          <button onclick="applyCoupon()"
-            class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-3 rounded">Apply</button>
+          <button onclick="applyCoupon()" class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-3 rounded">
+            Apply
+          </button>
         </div>
 
         <p id="cartMessage" class="mt-2 text-sm"></p>
+
         <button onclick="placeOrder()"
-          class="w-full mt-3 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded">Place Order</button>
+          class="w-full mt-3 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded">
+          Place Order
+        </button>
+
       </aside>
+
     </div>
+
   </section>
 
   <!-- REVIEWS  -->
   <section id="reviews" class="bg-white border-y border-gray-200 py-12 scroll-mt-20">
     <div class="max-w-3xl mx-auto px-4 text-center">
+
       <h2 class="text-3xl font-bold mb-6">Customer Reviews</h2>
-      <div id="reviewBox" class="bg-gray-50 border border-gray-200 rounded-lg p-6 min-h-48">Loading reviews...</div>
+
+      <div id="reviewBox" class="bg-gray-50 border border-gray-200 rounded-lg p-6 min-h-48">
+        Loading reviews...
+      </div>
+
       <div class="flex justify-center gap-3 mt-4">
-        <button onclick="moveReview(-1)"
-          class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded">Prev</button>
-        <button onclick="moveReview(1)"
-          class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded">Next</button>
+        <button onclick="moveReview(-1)" class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded">
+          Prev
+        </button>
+        <button onclick="moveReview(1)" class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded">
+          Next
+        </button>
       </div>
     </div>
   </section>
 
-  <!--  BONUS 2. ABOUT US  -->
+  <!-- ABOUT US  -->
   <section id="about" class="max-w-6xl mx-auto px-4 py-12 scroll-mt-20">
     <h2 class="text-3xl font-bold mb-4">About Us</h2>
     <p class="text-gray-700 max-w-3xl">
@@ -199,9 +228,11 @@
       reserved.</p>
   </footer>
 
-  <!-- Back to Top button (shown after scrolling down) -->
+  <!-- Back to Top button -->
   <button id="topButton" onclick="backToTop()"
-    class="hidden fixed bottom-5 right-5 bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded shadow">Top</button>
+    class="hidden fixed bottom-5 right-5 bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded shadow">
+    Top
+  </button>
 
   <script src="script.js"></script>
 </body>
