@@ -1,0 +1,281 @@
+/* NAVBAR  */
+
+// Show | Close
+function toggleMenu() {
+  document.getElementById("menu").classList.toggle("hidden");
+}
+
+function closeMenu() {
+  document.getElementById("menu").classList.add("hidden");
+}
+
+
+//scroll listener
+window.addEventListener("scroll", () => {
+  // Find current section
+  let currentSection = "home";
+  document.querySelectorAll("section").forEach((section) => {
+    if (window.scrollY >= section.offsetTop - 100) 
+    {
+      currentSection = section.id;
+    }
+  });
+  //bottom of the page
+  const atBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 5;
+  if (atBottom) currentSection = "contact";
+
+  //active menu link yellow
+  document.querySelectorAll(".nav-link").forEach((link) => {
+    link.classList.toggle("bg-yellow-400", link.getAttribute("href") === "#" + currentSection);
+  });
+
+  // Show the "Top" button only after scrolling down 300px
+  document.getElementById("topButton").classList.toggle("hidden", window.scrollY < 300);
+});
+
+/* ========== 2. SLIDING BANNER ========== */
+
+const banners = [
+  { image: "https://picsum.photos/id/26/1200/400", text: "Big Sale: Up to 50% Off" },
+  { image: "https://picsum.photos/id/21/1200/400", text: "New Shoes Just Arrived" },
+  { image: "https://picsum.photos/id/30/1200/400", text: "Fresh Deals Every Week" },
+  { image: "https://picsum.photos/id/0/1200/400", text: "Use Code SMART10 for 10% Off" },
+];
+let bannerIndex = 0;
+
+// step is 1 for next, -1 for previous, 0 to show the current one
+function moveBanner(step) {
+  bannerIndex = bannerIndex + step;
+  // After the last banner go to the first, and before the first go to the last
+  if (bannerIndex >= banners.length) bannerIndex = 0;
+  if (bannerIndex < 0) bannerIndex = banners.length - 1;
+  document.getElementById("bannerImage").src = banners[bannerIndex].image;
+  document.getElementById("bannerText").textContent = banners[bannerIndex].text;
+}
+
+moveBanner(0);
+setInterval(() => moveBanner(1), 3000); // auto slide every 3 seconds
+
+/* ========== 3. PRODUCTS ========== */
+
+let products = [];
+
+// Get products from the API
+fetch("https://fakestoreapi.com/products")
+  .then((response) => response.json())
+  .then((data) => {
+    products = data;
+    showProducts(products);
+  })
+  .catch(() => {
+    document.getElementById("productList").textContent = "Could not load products.";
+  });
+
+// Make one card for each product
+function showProducts(productList) {
+  let cards = "";
+  productList.forEach((product) => {
+    cards += `
+      <div class="bg-white border border-gray-200 rounded-lg p-4 flex flex-col">
+        <img src="${product.image}" alt="${product.title}" class="h-40 object-contain mb-3">
+        <h3 class="font-semibold text-sm line-clamp-2 flex-1">${product.title}</h3>
+        <p class="text-sm text-gray-600 my-1">Rating: ${product.rating.rate} / 5</p>
+        <p class="font-bold text-lg">${product.price.toFixed(2)} BDT</p>
+        <button onclick="addToCart(${product.id})"
+          class="mt-2 bg-yellow-400 hover:bg-yellow-500 font-semibold py-2 rounded">Add to Cart</button>
+      </div>`;
+  });
+  document.getElementById("productList").innerHTML = cards;
+}
+
+/* ========== 7. EXTRA FEATURE: SORTING ========== */
+
+function sortProducts() {
+  const sortType = document.getElementById("sortSelect").value;
+  const sortedProducts = products.slice(); // copy, so the original order stays the same
+  if (sortType === "low") sortedProducts.sort((a, b) => a.price - b.price);
+  if (sortType === "high") sortedProducts.sort((a, b) => b.price - a.price);
+  showProducts(sortedProducts);
+}
+
+/* ========== 4. CART + 6. BALANCE ========== */
+
+let cart = [];
+let couponApplied = false;
+// Use the saved balance, or 1000 the first time
+let balance = Number(localStorage.getItem("balance")) || 1000;
+
+// Calculate all cart amounts
+function getCartTotals() {
+  let subtotal = 0, delivery = 0, shipping = 0, discount = 0;
+  cart.forEach((item) => {
+    subtotal = subtotal + item.price * item.quantity;
+  });
+  if (cart.length > 0) {
+    delivery = 50;
+    shipping = 30;
+  }
+  if (couponApplied) discount = subtotal * 0.1;
+  const total = subtotal + delivery + shipping - discount;
+  return {
+    subtotal: subtotal,
+    delivery: delivery,
+    shipping: shipping,
+    discount: discount,
+    total: total,
+  };
+}
+
+// Show a message in green (good) or red (warning)
+function showMessage(elementId, text, isGood) {
+  const messageBox = document.getElementById(elementId);
+  messageBox.textContent = text;
+  if (isGood) messageBox.className = "mt-2 text-sm font-semibold text-green-700";
+  else messageBox.className = "mt-2 text-sm font-semibold text-red-600";
+}
+
+function addToCart(productId) {
+  const product = products.find((item) => item.id === productId);
+  const cartItem = cart.find((item) => item.id === productId);
+  if (cartItem) cartItem.quantity++;
+  else cart.push({ id: product.id, title: product.title, price: product.price, quantity: 1 });
+
+  // If the total is now more than the balance, take the product out again and warn
+  if (getCartTotals().total > balance) {
+    if (cartItem) cartItem.quantity--;
+    else cart.pop();
+    showMessage("cartMessage", "Not enough balance! Please add money.", false);
+    return;
+  }
+  showMessage("cartMessage", "Added to cart.", true);
+  updateCart();
+}
+
+function removeFromCart(productId) {
+  cart = cart.filter((item) => item.id !== productId);
+  showMessage("cartMessage", "Item removed.", true);
+  updateCart();
+}
+
+// Show the cart items and totals again
+function updateCart() {
+  let cartHTML = "";
+  let itemCount = 0;
+  cart.forEach((item) => {
+    itemCount = itemCount + item.quantity;
+    cartHTML += `
+      <div class="flex items-center gap-2 border-b border-gray-200 py-2 text-sm">
+        <span class="flex-1 line-clamp-1">${item.title}</span>
+        <span>${item.quantity} x ${item.price.toFixed(2)}</span>
+        <button onclick="removeFromCart(${item.id})"
+          class="text-red-600 font-semibold">Remove</button>
+      </div>`;
+  });
+  if (cart.length === 0) cartHTML = `<p class="text-sm text-gray-500">Your cart is empty.</p>`;
+  document.getElementById("cartItems").innerHTML = cartHTML;
+  document.getElementById("cartCount").textContent = itemCount;
+
+  const totals = getCartTotals();
+  document.getElementById("subtotal").textContent = totals.subtotal.toFixed(2);
+  document.getElementById("delivery").textContent = totals.delivery.toFixed(2);
+  document.getElementById("shipping").textContent = totals.shipping.toFixed(2);
+  document.getElementById("discount").textContent = totals.discount.toFixed(2);
+  document.getElementById("total").textContent = totals.total.toFixed(2);
+}
+
+function applyCoupon() {
+  const code = document.getElementById("couponInput").value.trim().toUpperCase();
+  if (code === "SMART10") {
+    couponApplied = true;
+    showMessage("cartMessage", "Coupon applied: 10% off!", true);
+    updateCart();
+  } else {
+    showMessage("cartMessage", "Invalid coupon code.", false);
+  }
+}
+
+// Show the balance and save it in localStorage
+function showBalance() {
+  document.getElementById("balance").textContent = balance.toFixed(2);
+  localStorage.setItem("balance", balance);
+}
+
+function addMoney() {
+  balance = balance + 1000;
+  showBalance();
+  showMessage("cartMessage", "1000 BDT added to your balance.", true);
+}
+
+function placeOrder() {
+  if (cart.length === 0) {
+    showMessage("cartMessage", "Your cart is empty.", false);
+    return;
+  }
+  balance = balance - getCartTotals().total;
+  cart = [];
+  couponApplied = false;
+  document.getElementById("couponInput").value = "";
+  showBalance();
+  updateCart();
+  showMessage("cartMessage", "Order placed. Thank you!", true);
+}
+
+showBalance();
+updateCart();
+
+/* ========== 5. REVIEWS ========== */
+
+let reviews = [];
+let reviewIndex = 0;
+
+// Get reviews from the local JSON file
+fetch("reviews.json")
+  .then((response) => response.json())
+  .then((data) => {
+    reviews = data;
+    moveReview(0);
+    setInterval(() => moveReview(1), 4000); // auto slide every 4 seconds
+  })
+  .catch(() => {
+    document.getElementById("reviewBox").textContent = "Could not load reviews. Use Live Server.";
+  });
+
+// Works the same way as moveBanner
+function moveReview(step) {
+  if (reviews.length === 0) return;
+  reviewIndex = reviewIndex + step;
+  if (reviewIndex >= reviews.length) reviewIndex = 0;
+  if (reviewIndex < 0) reviewIndex = reviews.length - 1;
+
+  const review = reviews[reviewIndex];
+  const stars = "★".repeat(review.rating) + "☆".repeat(5 - review.rating);
+  document.getElementById("reviewBox").innerHTML = `
+    <p class="text-yellow-500 text-2xl">${stars}</p>
+    <p class="text-lg my-3">"${review.comment}"</p>
+    <p class="font-bold">${review.name}</p>
+    <p class="text-sm text-gray-500">${review.date}</p>`;
+}
+
+/* ========== BONUS: CONTACT FORM ========== */
+
+function sendMessage(event) {
+  event.preventDefault(); // stop the page from reloading
+  const name = document.getElementById("contactName").value.trim();
+  const email = document.getElementById("contactEmail").value.trim();
+  const message = document.getElementById("contactMessage").value.trim();
+
+  if (name === "" || email === "" || message === "") {
+    showMessage("formMessage", "Please fill in all fields.", false);
+  } else if (!email.includes("@") || !email.includes(".")) {
+    showMessage("formMessage", "Please enter a valid email.", false);
+  } else {
+    showMessage("formMessage", "Thank you, " + name + "! We got your message.", true);
+    document.getElementById("contactForm").reset();
+  }
+}
+
+/* ========== FOOTER: BACK TO TOP ========== */
+
+function backToTop() {
+  window.scrollTo(0, 0);
+}
