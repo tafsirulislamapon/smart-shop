@@ -1,33 +1,35 @@
-# SmartShop - Online Product Store
+# SmartShop
 
-CSE-3532 Mid Project (Tools and Technologies for Internet Programming)
+CSE-3532 Mid Project. HTML, Tailwind CSS and JavaScript.
 
-## Team
-| Name | ID |
-|---|---|
-| Tafsirul Islam | C243025 |
-| Rafi Alam | C243015 |
+**Run:** open `index.html` with Live Server.
 
-## Built With
-HTML, Tailwind CSS (CDN), JavaScript DOM, Fetch API, FakeStore API, localStorage
+| Name | ID | Work |
+|---|---|---|
+| Tafsirul Islam | C243025 | JS  |
+| Rafi Alam | C243015 | HTML/CSS |
+| Hasan Al Faozan | C243048 | HTML/CSS |
 
-## Features
-- Sticky navbar with active link highlight and mobile menu
-- Sliding banner (auto + prev/next)
-- Products from FakeStore API
-- Cart with subtotal, delivery charge, shipping cost, coupon (`SMART10` = 10% off) and total
-- Reviews from local `reviews.json` with a carousel
-- User balance (starts at 1000 BDT, "Add Money" +1000, saved in localStorage)
-- Extra feature: sort products by price (low to high, high to low)
-- Bonus: Contact form with validation, About Us section
-- Footer with "Back to Top" button
+## References
 
-## How to Run
-Open the folder in VS Code and start **Live Server** (right click `index.html` > Open with Live Server).
+**Products API** (`fetch`)
+![fetch](assets/fakestore-fetch.png)
 
-A local server is needed because the browser blocks `fetch("reviews.json")` when the file is opened directly.
+**Sorting** (`sort`)
+![sort](assets/sort-function.png)
 
-## Files
-- `index.html`: page layout (Tailwind classes only, no CSS file)
-- `script.js`: all JavaScript
-- `reviews.json`: customer reviews
+**Copy array** (`slice`)
+![slice](assets/array-slice.png)
+
+**Balance from localStorage** (`+`)
+![unary plus](assets/unary-plus.png)
+
+**Active menu link** (`scrollY`, `innerHeight`, `offsetHeight`)
+![scrollY](assets/window-scrolly.png)
+![innerHeight](assets/inner-height.png)
+![offsetHeight](assets/offset-height.png)
+
+**Short titles** (`line-clamp`)
+![line-clamp](assets/line-clamp.png)
+
+Icons: [Heroicons](https://heroicons.com) (MIT)

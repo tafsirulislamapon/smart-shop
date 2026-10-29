@@ -28,7 +28,12 @@
       <div class="flex items-center gap-2 md:order-last">
         <a href="#cart" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-3 py-2 rounded">Cart (<span
             id="cartCount">0</span>)</a>
-        <button onclick="toggleMenu()" class="md:hidden border border-gray-300 px-3 py-2 rounded">Menu</button>
+        <!-- icon: Heroicons "bars-3" -->
+        <button onclick="toggleMenu()" aria-label="Menu" class="md:hidden border border-gray-300 p-2 rounded">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
       </div>
 
       <ul id="menu" onclick="closeMenu()" class="hidden md:flex w-full md:w-auto gap-1 mt-3 md:mt-0">
@@ -50,10 +55,19 @@
       <div class="absolute inset-0 bg-black/40 rounded-lg flex items-center justify-center px-16">
         <h1 id="bannerText" class="text-white text-2xl md:text-5xl font-bold text-center"></h1>
       </div>
-      <button onclick="moveBanner(-1)"
-        class="absolute left-3 top-1/2 -translate-y-1/2 bg-yellow-400 hover:bg-yellow-500 font-bold px-4 py-2 rounded">&lt;</button>
-      <button onclick="moveBanner(1)"
-        class="absolute right-3 top-1/2 -translate-y-1/2 bg-yellow-400 hover:bg-yellow-500 font-bold px-4 py-2 rounded">&gt;</button>
+      <!-- icons: Heroicons "chevron-left" and "chevron-right" -->
+      <button onclick="moveBanner(-1)" aria-label="Previous"
+        class="absolute left-3 top-1/2 -translate-y-1/2 bg-yellow-400 hover:bg-yellow-500 p-2 rounded">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+        </svg>
+      </button>
+      <button onclick="moveBanner(1)" aria-label="Next"
+        class="absolute right-3 top-1/2 -translate-y-1/2 bg-yellow-400 hover:bg-yellow-500 p-2 rounded">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+        </svg>
+      </button>
     </div>
   </section>
 
@@ -65,11 +79,21 @@
     <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
       <h2 class="text-3xl font-bold">Products</h2>
 
-      <select id="sortSelect" onchange="sortProducts()" class="border border-gray-300 bg-white rounded px-3 py-2">
-        <option value="default">Sort: Default</option>
-        <option value="low">Price: Low to High</option>
-        <option value="high">Price: High to Low</option>
-      </select>
+      <div class="relative">
+        
+        <select id="sortSelect" onchange="sortProducts()"
+          class="appearance-none border border-gray-300 bg-white rounded pl-3 pr-9 py-2">
+          <option value="default">Sort: Default</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
+        </select>
+     
+        <svg class="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" fill="none"
+          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+        </svg>
+
+      </div>
 
     </div>
 
@@ -86,11 +110,16 @@
         <h3 class="text-xl font-bold mb-3">Your Cart</h3>
 
         <!-- user balance -->
-        <div class="bg-gray-100 rounded p-3 mb-3 flex justify-between items-center gap-2">
-          <p>Balance: <b><span id="balance">0</span> BDT</b></p>
+        <div class="bg-gray-100 rounded p-3 mb-3 flex flex-wrap justify-between items-center gap-2">
+          <p>Balance: <b class="whitespace-nowrap"><span id="balance">0</span> BDT</b></p>
+          <!-- icon: Heroicons "plus" -->
           <button onclick="addMoney()"
-            class="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-2 py-1 rounded">+ Add
-            Money</button>
+            class="flex items-center gap-1 whitespace-nowrap bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-2 py-1 rounded">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Add Money
+          </button>
         </div>
 
 
@@ -153,11 +182,17 @@
       </div>
 
       <div class="flex justify-center gap-3 mt-4">
-        <button onclick="moveReview(-1)" class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded">
-          Prev
+        <!-- icons: Heroicons "chevron-left" and "chevron-right" -->
+        <button onclick="moveReview(-1)" aria-label="Previous review"
+          class="bg-yellow-400 hover:bg-yellow-500 p-2 rounded">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+          </svg>
         </button>
-        <button onclick="moveReview(1)" class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded">
-          Next
+        <button onclick="moveReview(1)" aria-label="Next review" class="bg-yellow-400 hover:bg-yellow-500 p-2 rounded">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+          </svg>
         </button>
       </div>
     </div>
@@ -170,16 +205,21 @@
       SmartShop is a simple online store. You can see products, add them to your cart and buy them with your balance.
       Our mission is to make online shopping easy, fast and safe for everyone.
     </p>
-    <div class="grid sm:grid-cols-2 gap-4 mt-6">
+    <div class="grid sm:grid-cols-3 gap-4 mt-6">
       <div class="bg-white border border-gray-200 rounded-lg p-5">
         <h3 class="text-lg font-bold">Tafsirul Islam</h3>
         <p class="text-gray-600">ID: C243025</p>
-        <p class="mt-2 font-semibold text-green-700">Frontend Developer (HTML, Tailwind CSS)</p>
+        <p class="mt-2 font-semibold text-green-700">JavaScript Logic</p>
       </div>
       <div class="bg-white border border-gray-200 rounded-lg p-5">
         <h3 class="text-lg font-bold">Rafi Alam</h3>
         <p class="text-gray-600">ID: C243015</p>
-        <p class="mt-2 font-semibold text-green-700">JavaScript Developer (DOM, API, Cart)</p>
+        <p class="mt-2 font-semibold text-green-700">HTML / CSS</p>
+      </div>
+      <div class="bg-white border border-gray-200 rounded-lg p-5">
+        <h3 class="text-lg font-bold">Hasan Al Faozan</h3>
+        <p class="text-gray-600">ID: C243048</p>
+        <p class="mt-2 font-semibold text-green-700">HTML / CSS</p>
       </div>
     </div>
   </section>
@@ -219,9 +259,9 @@
       </div>
       <div>
         <h4 class="font-bold mb-2">Contact Info</h4>
-        <p class="text-gray-700">Kumira, Chattogram, Bangladesh</p>
+        <p class="text-gray-700">Kusumbag R/A, Chattogram, Bangladesh</p>
         <p class="text-gray-700">Email: support@smartshop.com</p>
-        <p class="text-gray-700">Phone: +880 1700 000000</p>
+        <p class="text-gray-700">Phone: +88 01000000000</p>
       </div>
     </div>
     <p class="text-center text-sm text-gray-600 border-t border-gray-300 py-4">&copy; 2026 SmartShop. All rights
@@ -229,9 +269,12 @@
   </footer>
 
   <!-- Back to Top button -->
-  <button id="topButton" onclick="backToTop()"
-    class="hidden fixed bottom-5 right-5 bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded shadow">
-    Top
+  <!-- icon: Heroicons "arrow-up" -->
+  <button id="topButton" onclick="backToTop()" aria-label="Back to top"
+    class="hidden fixed bottom-5 right-5 bg-yellow-400 hover:bg-yellow-500 p-3 rounded shadow">
+    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
+    </svg>
   </button>
 
   <script src="script.js"></script>
