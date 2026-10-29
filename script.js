@@ -136,6 +136,7 @@ let balance = +localStorage.getItem("balance") || 1000;
 
 // calc
 function getCartTotals() {
+
   let subtotal = 0, delivery = 0, shipping = 0, discount = 0;
 
   cart.forEach((item) => {
@@ -148,9 +149,9 @@ function getCartTotals() {
   }
   if (couponApplied) {
     discount = subtotal * 0.1;
-  } 
+  }
   const total = subtotal + delivery + shipping - discount;
-  
+
   return {
     subtotal: subtotal,
     delivery: delivery,
@@ -173,21 +174,43 @@ function applyCoupon() {
 
 // show msg
 function showMessage(elementId, text, isGood) {
+
   const messageBox = document.getElementById(elementId);
+
   messageBox.textContent = text;
-  if (isGood) messageBox.className = "mt-2 text-sm font-semibold text-green-700";
-  else messageBox.className = "mt-2 text-sm font-semibold text-red-600";
+
+  if (isGood) {
+    messageBox.className = "mt-2 text-sm font-semibold text-green-700";
+  } else {
+    messageBox.className = "mt-2 text-sm font-semibold text-red-600";
+  }
 }
 
 
 
-function addToCart(productId) {
-  const product = products.find((item) => item.id === productId);
-  const cartItem = cart.find((item) => item.id === productId);
-  if (cartItem) cartItem.quantity++;
-  else cart.push({ id: product.id, title: product.title, price: product.price, quantity: 1 });
 
-  // If the total is now more than the balance, take the product out again and warn
+function addToCart(productId) {
+
+  const product = products.find((item) => item.id === productId);
+
+  const cartItem = cart.find((item) => item.id === productId);
+
+
+  if (cartItem) {
+    cartItem.quantity = cartItem.quantity + 1;
+  }
+  else {
+    cart.push(
+      {
+        id: product.id,
+        title: product.title,
+        price: product.price,
+        quantity: 1
+      }
+    );
+  }
+
+  // handle out of balance
   if (getCartTotals().total > balance) {
     if (cartItem) cartItem.quantity--;
     else cart.pop();

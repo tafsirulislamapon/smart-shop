@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SmartShop - Online Product Store</title>
-  
+
   <script src="https://cdn.tailwindcss.com"></script>
- 
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 </head>
+
 <body class="bg-gray-50 text-gray-900 font-['Inter']">
 
   <!-- NAVBAR  -->
   <header class="sticky top-0 z-50 bg-white border-b border-gray-200">
-    
+
     <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
 
       <a href="#home" class="text-2xl font-bold">Smart<span class="text-green-600">Shop</span></a>
 
       <div class="flex items-center gap-2 md:order-last">
-        <a href="#cart" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-3 py-2 rounded">Cart (<span id="cartCount">0</span>)</a>
+        <a href="#cart" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-3 py-2 rounded">Cart (<span
+            id="cartCount">0</span>)</a>
         <button onclick="toggleMenu()" class="md:hidden border border-gray-300 px-3 py-2 rounded">Menu</button>
       </div>
 
@@ -42,17 +45,19 @@
       <div class="absolute inset-0 bg-black/40 rounded-lg flex items-center justify-center px-16">
         <h1 id="bannerText" class="text-white text-2xl md:text-5xl font-bold text-center"></h1>
       </div>
-      <button onclick="moveBanner(-1)" class="absolute left-3 top-1/2 -translate-y-1/2 bg-yellow-400 hover:bg-yellow-500 font-bold px-4 py-2 rounded">&lt;</button>
-      <button onclick="moveBanner(1)" class="absolute right-3 top-1/2 -translate-y-1/2 bg-yellow-400 hover:bg-yellow-500 font-bold px-4 py-2 rounded">&gt;</button>
+      <button onclick="moveBanner(-1)"
+        class="absolute left-3 top-1/2 -translate-y-1/2 bg-yellow-400 hover:bg-yellow-500 font-bold px-4 py-2 rounded">&lt;</button>
+      <button onclick="moveBanner(1)"
+        class="absolute right-3 top-1/2 -translate-y-1/2 bg-yellow-400 hover:bg-yellow-500 font-bold px-4 py-2 rounded">&gt;</button>
     </div>
   </section>
 
   <!-- ========== 3. PRODUCTS + 4. CART ========== -->
   <section id="products" class="max-w-6xl mx-auto px-4 py-12 scroll-mt-20">
-    
+
     <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
       <h2 class="text-3xl font-bold">Products</h2>
-      
+
       <select id="sortSelect" onchange="sortProducts()" class="border border-gray-300 bg-white rounded px-3 py-2">
         <option value="default">Sort: Default</option>
         <option value="low">Price: Low to High</option>
@@ -68,33 +73,49 @@
         <p>Loading products...</p>
       </div>
 
-      <!-- Cart -->
-      <aside id="cart" class="bg-white border border-gray-200 rounded-lg p-4 self-start lg:sticky lg:top-20 scroll-mt-20">
+      <!-- cart -->
+      <aside id="cart"
+        class="bg-white border border-gray-200 rounded-lg p-4 self-start lg:sticky lg:top-20 scroll-mt-20">
         <h3 class="text-xl font-bold mb-3">Your Cart</h3>
 
         <!-- 6. User balance -->
         <div class="bg-gray-100 rounded p-3 mb-3 flex justify-between items-center gap-2">
           <p>Balance: <b><span id="balance">0</span> BDT</b></p>
-          <button onclick="addMoney()" class="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-2 py-1 rounded">+ Add Money</button>
+          <button onclick="addMoney()"
+            class="bg-green-600 hover:bg-green-700 text-white text-sm font-semibold px-2 py-1 rounded">+ Add
+            Money</button>
         </div>
 
         <div id="cartItems"></div>
 
         <div class="text-sm space-y-1 mt-3">
-          <p class="flex justify-between"><span>Subtotal</span><span><span id="subtotal">0.00</span> BDT</span></p>
-          <p class="flex justify-between"><span>Delivery Charge</span><span><span id="delivery">0.00</span> BDT</span></p>
-          <p class="flex justify-between"><span>Shipping Cost</span><span><span id="shipping">0.00</span> BDT</span></p>
-          <p class="flex justify-between"><span>Discount</span><span>- <span id="discount">0.00</span> BDT</span></p>
-          <p class="flex justify-between font-bold text-base border-t border-gray-200 pt-2"><span>Total</span><span><span id="total">0.00</span> BDT</span></p>
+          <p class="flex justify-between">
+            <span>Subtotal</span><span><span id="subtotal">0.00</span> BDT</span>
+          </p>
+          <p class="flex justify-between">
+            <span>Delivery Charge</span><span><span id="delivery">0.00</span> BDT</span>
+          </p>
+          <p class="flex justify-between">
+            <span>Shipping Cost</span><span><span id="shipping">0.00</span> BDT</span>
+          </p>
+          <p class="flex justify-between">
+            <span>Discount</span><span>- <span id="discount">0.00</span> BDT</span>
+          </p>
+          <p class="flex justify-between font-bold text-base border-t border-gray-200 pt-2">
+            <span>Total</span><span><span id="total">0.00</span> BDT</span>
+          </p>
         </div>
 
         <div class="flex gap-2 mt-3">
-          <input id="couponInput" type="text" placeholder="Coupon code" class="border border-gray-300 rounded px-2 py-1 w-full">
-          <button onclick="applyCoupon()" class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-3 rounded">Apply</button>
+          <input id="couponInput" type="text" placeholder="Coupon code"
+            class="border border-gray-300 rounded px-2 py-1 w-full">
+          <button onclick="applyCoupon()"
+            class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-3 rounded">Apply</button>
         </div>
 
         <p id="cartMessage" class="mt-2 text-sm"></p>
-        <button onclick="placeOrder()" class="w-full mt-3 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded">Place Order</button>
+        <button onclick="placeOrder()"
+          class="w-full mt-3 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded">Place Order</button>
       </aside>
     </div>
   </section>
@@ -105,8 +126,10 @@
       <h2 class="text-3xl font-bold mb-6">Customer Reviews</h2>
       <div id="reviewBox" class="bg-gray-50 border border-gray-200 rounded-lg p-6 min-h-48">Loading reviews...</div>
       <div class="flex justify-center gap-3 mt-4">
-        <button onclick="moveReview(-1)" class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded">Prev</button>
-        <button onclick="moveReview(1)" class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded">Next</button>
+        <button onclick="moveReview(-1)"
+          class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded">Prev</button>
+        <button onclick="moveReview(1)"
+          class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded">Next</button>
       </div>
     </div>
   </section>
@@ -135,12 +158,17 @@
   <!--  BONUS 1. CONTACT  -->
   <section id="contact" class="max-w-6xl mx-auto px-4 pb-12 scroll-mt-20">
     <h2 class="text-3xl font-bold mb-4">Contact Us</h2>
-    <form onsubmit="sendMessage(event)" id="contactForm" class="bg-white border border-gray-200 rounded-lg p-5 max-w-xl space-y-3">
-      <input id="contactName" type="text" placeholder="Your Name" class="border border-gray-300 rounded px-3 py-2 w-full">
-      <input id="contactEmail" type="text" placeholder="Your Email" class="border border-gray-300 rounded px-3 py-2 w-full">
-      <textarea id="contactMessage" rows="4" placeholder="Your Message" class="border border-gray-300 rounded px-3 py-2 w-full"></textarea>
+    <form onsubmit="sendMessage(event)" id="contactForm"
+      class="bg-white border border-gray-200 rounded-lg p-5 max-w-xl space-y-3">
+      <input id="contactName" type="text" placeholder="Your Name"
+        class="border border-gray-300 rounded px-3 py-2 w-full">
+      <input id="contactEmail" type="text" placeholder="Your Email"
+        class="border border-gray-300 rounded px-3 py-2 w-full">
+      <textarea id="contactMessage" rows="4" placeholder="Your Message"
+        class="border border-gray-300 rounded px-3 py-2 w-full"></textarea>
       <p id="formMessage" class="mt-2 text-sm font-semibold"></p>
-      <button type="submit" class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-5 py-2 rounded">Send Message</button>
+      <button type="submit" class="bg-yellow-400 hover:bg-yellow-500 font-semibold px-5 py-2 rounded">Send
+        Message</button>
     </form>
   </section>
 
@@ -167,12 +195,15 @@
         <p class="text-gray-700">Phone: +880 1700 000000</p>
       </div>
     </div>
-    <p class="text-center text-sm text-gray-600 border-t border-gray-300 py-4">&copy; 2026 SmartShop. All rights reserved.</p>
+    <p class="text-center text-sm text-gray-600 border-t border-gray-300 py-4">&copy; 2026 SmartShop. All rights
+      reserved.</p>
   </footer>
 
   <!-- Back to Top button (shown after scrolling down) -->
-  <button id="topButton" onclick="backToTop()" class="hidden fixed bottom-5 right-5 bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded shadow">Top</button>
+  <button id="topButton" onclick="backToTop()"
+    class="hidden fixed bottom-5 right-5 bg-yellow-400 hover:bg-yellow-500 font-semibold px-4 py-2 rounded shadow">Top</button>
 
   <script src="script.js"></script>
 </body>
+
 </html>
