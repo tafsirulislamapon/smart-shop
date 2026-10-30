@@ -8,7 +8,7 @@ CSE-3532 Mid Project. HTML, Tailwind CSS and JavaScript.
 |---|---|---|
 | Tafsirul Islam | C243025 | JS  |
 | Rafi Alam | C243015 | HTML/CSS |
-| Hasan Al Faozan | C243048 | HTML/CSS |
+| Hasan Al Faozan | C243046 | HTML/CSS |
 
 ## References
 
